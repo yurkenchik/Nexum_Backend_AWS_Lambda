@@ -10,16 +10,7 @@ import { AuthModule } from "src/auth/auth.module";
 @Module({
     imports: [
         ConfigModule.forRoot({ isGlobal: true }),
-        JwtModule.registerAsync({
-            imports: [ConfigModule],
-            inject: [ConfigService],
-            useFactory: (configService: ConfigService): JwtModuleOptions => {
-                return {
-                    secret: configService.get<string>("JWT_SECRET"),
-                    signOptions: { expiresIn: configService.get<number>("JWT_EXPIRES_IN") }
-                }
-            }
-        }),
+        JwtModule,
         MongooseModule.forRootAsync({
             imports: [ConfigModule],
             inject: [ConfigService],

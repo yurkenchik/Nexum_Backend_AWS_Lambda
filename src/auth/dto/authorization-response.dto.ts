@@ -1,4 +1,4 @@
 
 export class AuthorizationResponseDto {
-    token: string;
+    readonly token: string;
 }

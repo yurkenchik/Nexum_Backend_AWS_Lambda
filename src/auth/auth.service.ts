@@ -1,5 +1,4 @@
 import { Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
 import { TokenService } from "src/auth/token.service";
 import { CreateUserDto } from "src/user/dto/create-user.dto";
 import { AuthorizationResponseDto } from "src/auth/dto/authorization-response.dto";

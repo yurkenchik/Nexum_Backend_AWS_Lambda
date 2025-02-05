@@ -1,26 +1,29 @@
-name: Deploy Lambda Function
+name: Deploy Rest API function
 
 on:
-  push:
-    branches: [ main, dev ]
+  workflow_dispatch:
 
 jobs:
-  deploy:
+  deploy_lambda:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
-      - name: Install zip tool
-        uses: montudor/action-zip@v1
-      - name: Create Zip file for Lambda function
-        run: zip -r code.zip .
-      - name: AWS CLI v2
-        uses: imehedi/actions-awscli-v2@latest
+      - uses: actions/setup-node@v2
         with:
-          args: "lambda update-function-code \
-            --function-name arn:aws:lambda:eu-north-1:061039781329:function:Nexum-API \
-            --zip-file fileb://code.zip"
+          node-version: '22'
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-north-1
+      - name: npm install
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_DEFAULT_REGION: "eu-north-1"
+          CI: true
+        run: |
+          npm ci
+      - name: Build and Deploy
+        run: |
+          tsc
+          zip -j deploy.zip ./dist/*
+          aws lambda update-function-code --function-name=lambda-gh-action --zip-file=fileb://deploy.zip

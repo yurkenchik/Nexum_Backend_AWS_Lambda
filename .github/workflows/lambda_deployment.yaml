@@ -22,6 +22,10 @@ jobs:
           CI: true
         run: |
           yarn install --frozen-lockfile
+
+      - name: Deploy with Serverless Framework
+        run: serverless deploy --stage prod --region eu-north-1
+
       - name: Build and Deploy
         run: |
           yarn build

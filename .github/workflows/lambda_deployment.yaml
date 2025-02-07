@@ -21,7 +21,7 @@ jobs:
         env:
           CI: true
         run: |
-          yarn ci
+          yarn install --frozen-lockfile
       - name: Build and Deploy
         run: |
           yarn build

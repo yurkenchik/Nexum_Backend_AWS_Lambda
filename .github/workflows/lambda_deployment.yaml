@@ -17,19 +17,21 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-north-1
-      - name: yarn install
+      - name: Install dependencies
         env:
           CI: true
         run: |
           yarn install --frozen-lockfile
+          yarn global add serverless
 
-      - name: Install Serverless Framework
-        run: yarn global add serverless
-  
       - name: Authenticate Serverless
-        run: serverless login --org nexumserver || echo "Skipping interactive login"
+        env:
+          SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
+        run: echo "Serverless authentication set"
 
       - name: Deploy with Serverless Framework
+        env:
+          SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
         run: serverless deploy --stage prod --region eu-north-1
 
       - name: Build and Deploy

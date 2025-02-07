@@ -24,7 +24,7 @@ jobs:
           yarn install --frozen-lockfile
 
       - name: Install Serverless Framework
-        run: npm install -g serverless
+        run: yarn add -g serverless
 
       - name: Deploy with Serverless Framework
         run: serverless deploy --stage prod --region eu-north-1

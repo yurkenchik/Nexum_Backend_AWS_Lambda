@@ -25,12 +25,12 @@ jobs:
 
       - name: Install Serverless Framework
         run: yarn global add serverless
+  
+      - name: Authenticate Serverless
+        run: serverless login --org nexumserver || echo "Skipping interactive login"
 
       - name: Deploy with Serverless Framework
         run: serverless deploy --stage prod --region eu-north-1
-
-      - name: Authenticate Serverless
-        run: serverless login --org nexumserver || echo "Skipping interactive login"
 
       - name: Build and Deploy
         run: |

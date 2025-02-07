@@ -37,7 +37,8 @@ export class AuthService {
             password: hashedPassword,
         });
 
-        const token = await this.tokenService.generateToken(user);
+        const { id } = user;
+        const token = await this.tokenService.generateToken({ id, hashedPassword, ...user });
         return { token };
     }
 
@@ -45,7 +46,8 @@ export class AuthService {
         const { email, password } = loginDto;
         const user = await this.validateUser({ email, password });
 
-        const token = await this.tokenService.generateToken(user);
+        const { id } = user;
+        const token = await this.tokenService.generateToken({ id, hashedPassword: password, ...user });
         return { token };
     }
 

@@ -58,8 +58,8 @@ export class AuthService {
             throw new UserNotFoundException();
         }
 
-        const passwordValueObject = new Password(user.password);
-        const passwordMatch = await passwordValueObject.hash();
+        const passwordValueObject = new Password(password);
+        const passwordMatch = await passwordValueObject.comparePasswords(user.password);
 
         if (!passwordMatch) {
             throw new PasswordDontMatchException();

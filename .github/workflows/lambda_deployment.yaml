@@ -59,8 +59,14 @@ jobs:
 
       - name: Deploy with Serverless Framework
         env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: eu-north-1
+          AWS_DEFAULT_REGION: eu-north-1
           SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
-        run: serverless deploy --stage ${{ github.event.inputs.environment }} --region eu-north-1
+        run:
+          serverless config credentials --provider aws --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_ACCESS_KEY
+          serverless deploy --stage ${{ github.event.inputs.environment }} --region eu-north-1
 
       - name: Build and Deploy
         run: |

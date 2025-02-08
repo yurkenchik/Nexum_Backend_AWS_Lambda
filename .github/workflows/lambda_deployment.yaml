@@ -64,8 +64,8 @@ jobs:
 
       - name: Deploy with Serverless Framework
         env:
-          AWS_ACCESS_KEY_ID: AKIAQ4NSBEXIWE5U2DMZ
-          AWS_SECRET_ACCESS_KEY: 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
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: eu-north-1
           AWS_DEFAULT_REGION: eu-north-1
           SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}

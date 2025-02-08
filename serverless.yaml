@@ -11,11 +11,11 @@ provider:
   profile: default
   stage: ${opt:stage, 'dev'}
   environment:
-    PORT: ${ssm:/${self:provider.stage}/PORT}
-    ENVIRONMENT_PREFIX: ${ssm:/${self:provider.stage}/ENVIRONMENT_PREFIX}
-    MONGO_DB_URI: ${ssm:/${self:provider.stage}/MONGO_DB_URI}
-    JWT_SECRET: ${ssm:/${self:provider.stage}/JWT_SECRET}
-    JWT_EXPIRATION_TIME: ${ssm:/${self:provider.stage}/JWT_EXPIRATION_TIME}
+    PORT: ${env:PORT}
+    ENVIRONMENT_PREFIX: ${env:ENVIRONMENT_PREFIX}
+    MONGO_DB_URI: ${env:MONGO_DB_URI}
+    JWT_SECRET: ${env:JWT_SECRET}
+    JWT_EXPIRATION_TIME: ${env:JWT_EXPIRATION_TIME}
 
 custom:
   serverless-offline:

@@ -2,6 +2,15 @@ name: Deploy Rest API function
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment Environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - prod
 
 jobs:
   deploy_lambda:
@@ -32,11 +41,11 @@ jobs:
       - name: Deploy with Serverless Framework
         env:
           SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}
-        run: serverless deploy --stage prod --region eu-north-1
+        run: serverless deploy --stage ${{ github.event.inputs.environment }} --region eu-north-1
 
       - name: Build and Deploy
         run: |
           yarn build
           tsc
           zip -j deploy.zip ./dist/*
-          aws lambda update-function-code --function-name=lambda-gh-action --zip-file=fileb://deploy.zip
+          aws lambda update-function-code --function-name=lambda-gh-action-${{ github.event.inputs.environment }} --zip-file=fileb://deploy.zip

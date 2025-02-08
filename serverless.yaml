@@ -9,6 +9,7 @@ provider:
   name: aws
   runtime: nodejs22.x
   profile: default
+  stage: ${opt:stage, 'dev'}
   environment:
     PORT: ${ssm:/${self:provider.stage}/PORT}
     ENVIRONMENT_PREFIX: ${ssm:/${self:provider.stage}/ENVIRONMENT_PREFIX}

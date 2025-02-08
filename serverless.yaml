@@ -19,7 +19,7 @@ provider:
 
 custom:
   serverless-offline:
-    httpPort: ${env:PORT}
+    httpPort: ${ssm:/${self:provider.stage}/PORT}
     lambdaPort: 9002
 
 functions:
